@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감정–식습관 맵 | 푸드테라피 활동지</title>
+<style>
+/* ── Google Fonts (인터넷 있을 때만 로드, 없어도 대체 폰트 사용) ── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+:root {
+  --c-stress:  #D85A30;
+  --c-tired:   #BA7517;
+  --c-sad:     #534AB7;
+  --c-anxious: #185FA5;
+  --c-joy:     #3B6D11;
+  --c-yes:     #1D9E75;
+  --c-no:      #B33030;
+  --c-bg:      #F5F3EE;
+  --c-card:    #FDFCFA;
+  --c-border:  #DDD9CF;
+  --c-dark:    #1E1D1B;
+  --c-muted:   #8A877F;
+  --c-white:   #FFFFFF;
+  --c-food-bg: #FDF0EA;
+  --c-food-tx: #5C220E;
+  --c-reas-bg: #E8F2FC;
+  --c-reas-tx: #092E56;
+  --c-resu-bg: #E3F6EE;
+  --c-resu-tx: #05382E;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.05);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', '맑은 고딕', 'Malgun Gothic', sans-serif;
+  background: var(--c-bg);
+  color: var(--c-dark);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ══ LAYOUT ═══════════════════════════════════════════════════════════════ */
+.app-wrap {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+}
+
+/* ══ TOP HERO ══════════════════════════════════════════════════════════════ */
+.hero {
+  background: var(--c-dark);
+  padding: 36px 32px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(216,90,48,.25) 0%, transparent 50%),
+    radial-gradient(circle at 15% 80%, rgba(83,74,183,.2) 0%, transparent 45%),
+    radial-gradient(circle at 55% 110%, rgba(29,158,117,.15) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; }
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,.7);
+  letter-spacing: .06em;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.hero-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-yes);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.8)}
+}
+.hero h1 {
+  font-size: clamp(22px, 5vw, 30px);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.hero h1 span {
+  background: linear-gradient(90deg, #F0A070, #D85A30);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 13.5px;
+  color: rgba(255,255,255,.6);
+  font-weight: 300;
+  max-width: 420px;
+}
+.hero-flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.hero-flow-step {
+  padding: 5px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .02em;
+}
+.hero-flow-arrow {
+  color: rgba(255,255,255,.3);
+  font-size: 14px;
+}
+
+/* ══ SECTION PADDING ═══════════════════════════════════════════════════════ */
+.section { padding: 28px 24px 0; }
+
+/* ══ STEP LABEL ════════════════════════════════════════════════════════════ */
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--c-dark);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-dark);
+  letter-spacing: .01em;
+}
+.step-desc {
+  font-size: 11.5px;
+  color: var(--c-muted);
+  font-weight: 400;
+}
+
+/* ══ EMOTION SELECTOR ══════════════════════════════════════════════════════ */
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+@media(max-width:500px){
+  .emotion-grid { grid-template-columns: repeat(3,1fr); }
+}
+.em-btn {
+  background: var(--c-card);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 12px 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.em-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity .2s;
+  border-radius: inherit;
+}
+.em-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.em-btn.active {
+  color: #fff;
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+.em-emoji { font-size: 20px; display: block; margin-bottom: 4px; }
+.em-label { font-size: 12px; font-weight: 700; display: block; }
+.em-sub   { font-size: 10px; font-weight: 300; display: block; opacity: .75; margin-top: 1px; }
+
+/* ══ DIVIDER ═══════════════════════════════════════════════════════════════ */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+.sec-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sec-badge-icon { font-size: 13px; }
+.divider-line { flex: 1; height: 1px; background: var(--c-border); }
+
+/* ══ Q CARD ════════════════════════════════════════════════════════════════ */
+.q-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 5px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.q-card:hover { border-color: rgba(0,0,0,.15); }
+.q-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--c-muted);
+  min-width: 20px;
+}
+.q-body { min-width: 0; }
+.q-text { font-size: 13px; color: var(--c-dark); font-weight: 400; line-height: 1.4; }
+.q-hint {
+  font-size: 10.5px;
+  color: var(--c-muted);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.q-hint strong { color: var(--c-dark); font-weight: 600; }
+.q-btns { display: flex; gap: 5px; flex-shrink: 0; }
+
+.q-btn {
+  padding: 5px 11px;
+  border-radius: 5px;
+  border: 1.5px solid;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  letter-spacing: .03em;
+  background: transparent;
+}
+.q-btn.yes-btn {
+  color: var(--c-yes);
+  border-color: var(--c-yes);
+}
+.q-btn.no-btn {
+  color: var(--c-no);
+  border-color: var(--c-no);
+}
+.q-btn.yes-btn:hover, .q-btn.yes-btn.selected {
+  background: var(--c-yes);
+  color: #fff;
+}
+.q-btn.no-btn:hover, .q-btn.no-btn.selected {
+  background: var(--c-no);
+  color: #fff;
+}
+.q-card.answered-yes { border-left: 3px solid var(--c-yes); }
+.q-card.answered-no  { border-left: 3px solid var(--c-no); opacity: .7; }
+
+/* ══ PROGRESS ══════════════════════════════════════════════════════════════ */
+.progress-wrap {
+  display: none;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin: 20px 24px 0;
+  box-shadow: var(--shadow-sm);
+}
+.progress-wrap.visible { display: block; }
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.progress-label { font-size: 11.5px; font-weight: 700; color: var(--c-dark); }
+.progress-count { font-size: 11px; color: var(--c-muted); }
+.progress-bar-bg {
+  height: 5px;
+  background: var(--c-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--c-yes), #12CFA0);
+  border-radius: 99px;
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+/* ══ QUESTION AREA ═════════════════════════════════════════════════════════ */
+.question-area {
+  display: none;
+  animation: slideIn .3s ease;
+}
+.question-area.visible { display: block; }
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ══ RESULT SECTION ════════════════════════════════════════════════════════ */
+.result-section {
+  display: none;
+  animation: slideIn .35s ease;
+}
+.result-section.visible { display: block; }
+
+.result-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin: 24px 24px 0;
+}
+.result-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.result-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+.result-check {
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.result-table th {
+  background: var(--c-bg);
+  color: var(--c-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--c-border);
+  letter-spacing: .04em;
+}
+.result-table td {
+  padding: 12px 14px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.result-table tr:last-child td { border-bottom: none; }
+.result-table td.col-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-muted);
+  white-space: nowrap;
+  width: 80px;
+}
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 600;
+  margin: 2px 3px 2px 0;
+}
+.tag-pill.food { background: var(--c-food-bg); color: var(--c-food-tx); }
+.tag-pill.reason { background: var(--c-reas-bg); color: var(--c-reas-tx); }
+.tag-pill.result { background: var(--c-resu-bg); color: var(--c-resu-tx); }
+.tag-pill.empty { background: var(--c-border); color: var(--c-muted); font-weight: 400; font-size: 11px; }
+
+/* ══ RESET BTN ══════════════════════════════════════════════════════════════ */
+.btn-reset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 24px 0;
+  padding: 11px 20px;
+  background: var(--c-card);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-muted);
+  cursor: pointer;
+  transition: var(--transition);
+  width: calc(100% - 48px);
+  justify-content: center;
+}
+.btn-reset:hover {
+  background: var(--c-dark);
+  border-color: var(--c-dark);
+  color: #fff;
+}
+
+/* ══ ALL RESULTS TABLE ══════════════════════════════════════════════════════ */
+.all-results-section {
+  display: none;
+  margin: 32px 24px 0;
+  animation: slideIn .3s ease;
+}
+.all-results-section.visible { display: block; }
+.all-results-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--c-dark);
+  margin-bottom: 4px;
+  letter-spacing: -.02em;
+}
+.all-results-sub {
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-bottom: 14px;
+}
+.all-table-wrap {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.all-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.all-table th {
+  background: var(--c-dark);
+  color: rgba(255,255,255,.7);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 10px 12px;
+  text-align: left;
+  letter-spacing: .05em;
+}
+.all-table td {
+  padding: 12px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: top;
+}
+.all-table tr:last-child td { border-bottom: none; }
+.all-table .em-name {
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 99px;
+  display: inline-block;
+  white-space: nowrap;
+}
+.all-table td.pending {
+  color: var(--c-muted);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* ══ REFLECTION BOX ════════════════════════════════════════════════════════ */
+.reflection-box {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 16px 24px 0;
+  box-shadow: var(--shadow-sm);
+}
+.reflection-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-dark);
+  margin-bottom: 12px;
+}
+.reflection-q {
+  margin-bottom: 10px;
+}
+.reflection-q-text {
+  font-size: 12px;
+  color: var(--c-dark);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.reflection-input {
+  width: 100%;
+  border: 1.5px solid var(--c-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--c-dark);
+  background: var(--c-bg);
+  resize: none;
+  transition: border-color .2s;
+  min-height: 52px;
+}
+.reflection-input:focus {
+  outline: none;
+  border-color: #888;
+}
+
+/* ══ HOW TO USE ════════════════════════════════════════════════════════════ */
+.howto {
+  background: var(--c-dark);
+  margin: 32px 24px 0;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  color: rgba(255,255,255,.65);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.howto strong { color: rgba(255,255,255,.9); }
+
+/* ══ NOTICE BAR ════════════════════════════════════════════════════════════ */
+.notice-bar {
+  background: rgba(29,158,117,.08);
+  border: 1px solid rgba(29,158,117,.2);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin: 20px 24px 0;
+  font-size: 11.5px;
+  color: var(--c-resu-tx);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ══ PRINT STYLES ══════════════════════════════════════════════════════════ */
+@media print {
+  body { background: #fff; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .btn-reset, .howto, .notice-bar { display: none; }
+  .all-results-section { display: block !important; }
+  .all-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .em-name { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrap">
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <span class="hero-dot"></span>
+        푸드테라피 수업 활동지
+      </div>
+      <h1>감정–식습관 <span>맵</span></h1>
+      <p class="hero-desc">Yes / No 질문을 따라가면 나의 감정 패턴과 식습관의 관계가 자동으로 완성됩니다</p>
+      <div class="hero-flow">
+        <span class="hero-flow-step" style="background:rgba(216,90,48,.7)">감정 확인</span>
+        <span class="hero-flow-arrow">→</span>
+        <span class="hero-flow-step" style="background:rgba(216,90,48,.5)">음식 도출</span>
+        <span class="hero-flow-arrow">→</span>
+        <span class="hero-flow-step" style="background:rgba(29,158,117,.6)">이유 도출</span>
+        <span class="hero-flow-arrow">→</span>
+        <span class="hero-flow-step" style="background:rgba(29,158,117,.8)">결과 확인</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: EMOTION SELECT ─────────────────────────────────────── -->
+  <div class="section">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">감정 선택</div>
+        <div class="step-desc">지금 또는 최근 자주 느끼는 감정을 선택하세요</div>
+      </div>
+    </div>
+
+    <div class="emotion-grid" id="em-grid">
+      <button class="em-btn" data-key="stress"
+        style="--em-color:var(--c-stress)"
+        onclick="selectEmotion('stress', this)">
+        <span class="em-emoji">😤</span>
+        <span class="em-label">스트레스</span>
+        <span class="em-sub">긴장 · 압박</span>
+      </button>
+      <button class="em-btn" data-key="tired"
+        style="--em-color:var(--c-tired)"
+        onclick="selectEmotion('tired', this)">
+        <span class="em-emoji">😴</span>
+        <span class="em-label">피로</span>
+        <span class="em-sub">지침 · 소진</span>
+      </button>
+      <button class="em-btn" data-key="sad"
+        style="--em-color:var(--c-sad)"
+        onclick="selectEmotion('sad', this)">
+        <span class="em-emoji">😔</span>
+        <span class="em-label">우울</span>
+        <span class="em-sub">슬픔 · 무력감</span>
+      </button>
+      <button class="em-btn" data-key="anxious"
+        style="--em-color:var(--c-anxious)"
+        onclick="selectEmotion('anxious', this)">
+        <span class="em-emoji">😰</span>
+        <span class="em-label">불안</span>
+        <span class="em-sub">초조 · 걱정</span>
+      </button>
+      <button class="em-btn" data-key="joy"
+        style="--em-color:var(--c-joy)"
+        onclick="selectEmotion('joy', this)">
+        <span class="em-emoji">😊</span>
+        <span class="em-label">기쁨</span>
+        <span class="em-sub">즐거움 · 설렘</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── PROGRESS ───────────────────────────────────────────────────── -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">질문 진행도</span>
+      <span class="progress-count" id="prog-count">0 / 6</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar" id="prog-bar"></div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: QUESTIONS ──────────────────────────────────────────── -->
+  <div class="question-area" id="q-area">
+    <div class="section">
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Yes / No 질문</div>
+          <div class="step-desc">솔직하게 응답할수록 정확한 패턴이 나옵니다</div>
+        </div>
+      </div>
+
+      <!-- 음식 도출 -->
+      <div class="divider">
+        <div class="sec-badge" style="background:var(--c-food-bg);color:var(--c-food-tx)">
+          <span class="sec-badge-icon">🍽</span> 음식 도출
+        </div>
+        <div class="divider-line"></div>
+      </div>
+      <div id="food-qs"></div>
+
+      <!-- 이유 도출 -->
+      <div class="divider">
+        <div class="sec-badge" style="background:var(--c-reas-bg);color:var(--c-reas-tx)">
+          <span class="sec-badge-icon">💭</span> 이유 도출
+        </div>
+        <div class="divider-line"></div>
+      </div>
+      <div id="reason-qs"></div>
+
+      <!-- 결과 도출 -->
+      <div class="divider">
+        <div class="sec-badge" style="background:var(--c-resu-bg);color:var(--c-resu-tx)">
+          <span class="sec-badge-icon">📊</span> 결과 도출
+        </div>
+        <div class="divider-line"></div>
+      </div>
+      <div id="result-qs"></div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: RESULT ─────────────────────────────────────────────── -->
+  <div class="result-section" id="result-section">
+    <div class="section">
+      <div class="step-row">
+        <div class="step-num" style="background:var(--c-yes)">3</div>
+        <div>
+          <div class="step-title">나의 결과</div>
+          <div class="step-desc">YES 응답 항목만 자동으로 정리됩니다</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <div class="result-header" id="result-header">
+        <h3 id="result-title">결과</h3>
+        <div class="result-check">✓</div>
+      </div>
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>YES 응답 내용</th>
+          </tr>
+        </thead>
+        <tbody id="result-tbody"></tbody>
+      </table>
+    </div>
+
+    <button class="btn-reset" onclick="addToAllAndReset()">
+      ＋ &nbsp;이 감정 저장 후 다른 감정 탐색하기
+    </button>
+  </div>
+
+  <!-- ── ALL RESULTS TABLE ──────────────────────────────────────────── -->
+  <div class="all-results-section" id="all-results-section">
+    <div class="all-results-title">✅ 통합 결과표</div>
+    <div class="all-results-sub">탐색한 모든 감정의 패턴이 한눈에 정리됩니다</div>
+    <div class="all-table-wrap">
+      <table class="all-table">
+        <thead>
+          <tr>
+            <th>감정</th>
+            <th>먹고 싶은 음식</th>
+            <th>먹는 이유</th>
+            <th>먹은 후 느낌</th>
+          </tr>
+        </thead>
+        <tbody id="all-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── REFLECTION ─────────────────────────────────────────────────── -->
+  <div class="reflection-box" id="reflection-box" style="display:none">
+    <div class="reflection-title">✏ 자기 성찰 질문</div>
+    <div class="reflection-q">
+      <div class="reflection-q-text">1. 어떤 감정일 때 식습관의 변화가 가장 크게 나타났나요?</div>
+      <textarea class="reflection-input" placeholder="자유롭게 적어보세요..." rows="2"></textarea>
+    </div>
+    <div class="reflection-q">
+      <div class="reflection-q-text">2. 긍정적인 부분과 개선하고 싶은 부분은 무엇인가요?</div>
+      <textarea class="reflection-input" placeholder="자유롭게 적어보세요..." rows="2"></textarea>
+    </div>
+    <div class="reflection-q" style="margin-bottom:0">
+      <div class="reflection-q-text">3. 앞으로 어떻게 바꿔보고 싶은가요?</div>
+      <textarea class="reflection-input" placeholder="자유롭게 적어보세요..." rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ── NOTICE ─────────────────────────────────────────────────────── -->
+  <div class="notice-bar" id="notice-bar" style="display:none">
+    <span>💾</span>
+    <span>이 페이지는 <strong>인터넷 없이도 작동</strong>합니다. HTML 파일을 USB나 이메일로 공유하세요.</span>
+  </div>
+
+  <!-- ── HOW TO USE ─────────────────────────────────────────────────── -->
+  <div class="howto" id="howto-box">
+    <strong style="color:#fff;display:block;margin-bottom:6px;font-size:13px">📖 사용 방법</strong>
+    <strong>① 감정 선택</strong> → 지금 자주 느끼는 감정 버튼을 클릭<br>
+    <strong>② Yes / No 응답</strong> → 6개 질문에 솔직하게 응답<br>
+    <strong>③ 결과 확인</strong> → 나의 식습관 패턴이 자동 완성<br>
+    <strong>④ 다른 감정 탐색</strong> → '저장 후 다른 감정 탐색' 버튼으로 반복<br>
+    <strong>⑤ 통합 결과표</strong> → 모든 감정 패턴을 한 번에 비교<br>
+    <br>
+    <span style="opacity:.5;font-size:11px">이 파일은 인터넷 없이도 작동합니다 · 수강생 배포용</span>
+  </div>
+
+</div><!-- /app-wrap -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════════════════════════ */
+const DATA = {
+  stress: {
+    label: '스트레스', color: '#D85A30',
+    food: [
+      { q: '단 음식(초콜릿·디저트)이 당기는가?', yes: '초콜릿 / 디저트' },
+      { q: '자극적인 음식(매운 것·패스트푸드)이 당기는가?', yes: '매운 음식 / 패스트푸드' },
+    ],
+    reason: [
+      { q: '먹으면 기분이 좋아지는 느낌인가?', yes: '보상' },
+      { q: '먹지 않으면 불편하고 참기 힘든가?', yes: '스트레스 해소' },
+    ],
+    result: [
+      { q: '먹고 나서 후회나 죄책감이 드는가?', yes: '후회 / 죄책감' },
+      { q: '계속 더 먹고 싶어지는가?', yes: '폭식' },
+    ],
+  },
+  tired: {
+    label: '피로', color: '#BA7517',
+    food: [
+      { q: '커피나 카페인 음료가 당기는가?', yes: '커피 / 카페인 음료' },
+      { q: '단 것(초콜릿·주스·과자)이 당기는가?', yes: '당류 / 단 음식' },
+    ],
+    reason: [
+      { q: '졸림을 깨거나 집중하기 위해 먹는가?', yes: '각성 목적' },
+      { q: '에너지가 부족하다고 느껴 먹는가?', yes: '에너지 보충' },
+    ],
+    result: [
+      { q: '먹어도 피로가 해결되지 않는가?', yes: '지속 피로' },
+      { q: '밤에 잠이 잘 오지 않는가?', yes: '수면 저하' },
+    ],
+  },
+  sad: {
+    label: '우울', color: '#534AB7',
+    food: [
+      { q: '아무것도 먹기 싫거나 식욕이 없는가?', yes: '식욕 저하 / 식사 회피' },
+      { q: '특정 음식 한 가지만 반복해서 먹고 싶은가?', yes: '편식 / 특정 음식' },
+    ],
+    reason: [
+      { q: '의욕이 없어서 그냥 안 먹는 상태인가?', yes: '무기력' },
+      { q: '음식 준비나 먹는 행위 자체가 귀찮은가?', yes: '행동 저하' },
+    ],
+    result: [
+      { q: '기력이 눈에 띄게 떨어지는 느낌인가?', yes: '에너지 저하' },
+      { q: '식사량이 줄어들고 있는가?', yes: '영양 부족' },
+    ],
+  },
+  anxious: {
+    label: '불안', color: '#185FA5',
+    food: [
+      { q: '특별히 배고프지 않아도 계속 뭔가 먹고 싶은가?', yes: '간식 / 잦은 소식' },
+      { q: '바삭하거나 씹는 식감의 음식이 당기는가?', yes: '과자류 / 씹히는 음식' },
+    ],
+    reason: [
+      { q: '먹으면 잠깐이라도 마음이 안정되는 느낌인가?', yes: '긴장 완화' },
+      { q: '손이나 입이 계속 움직이고 싶은 느낌인가?', yes: '불안 해소' },
+    ],
+    result: [
+      { q: '먹는 양을 스스로 조절하기 어려운가?', yes: '과식' },
+      { q: '먹고 나서 허무하거나 공허한가?', yes: '공허감' },
+    ],
+  },
+  joy: {
+    label: '기쁨', color: '#3B6D11',
+    food: [
+      { q: '좋은 일이 있을 때 외식이나 특별한 식사를 찾는가?', yes: '외식 / 고기류' },
+      { q: '평소보다 더 고급스럽거나 특별한 음식을 찾는가?', yes: '고급 음식 / 특별식' },
+    ],
+    reason: [
+      { q: '기쁜 일을 축하하거나 나 자신에게 보상하기 위해 먹는가?', yes: '보상 / 축하' },
+      { q: '혼자보다는 사람들과 함께 먹는 경우가 많은가?', yes: '사회적 식사' },
+    ],
+    result: [
+      { q: '기쁠 때 평소보다 많이 먹게 되는가?', yes: '과식' },
+      { q: '먹고 난 후 만족감이 높고 기분이 좋은가?', yes: '긍정 경험' },
+    ],
+  },
+};
+
+const EM_ORDER = ['stress','tired','sad','anxious','joy'];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════════════════ */
+let currentEm = null;
+let answers = { food: [null, null], reason: [null, null], result: [null, null] };
+let allResults = {};  // key → { food:[], reason:[], result:[] }
+let answered = 0;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════════════════ */
+function pills(arr, type) {
+  if (!arr.length) return `<span class="tag-pill empty">해당 없음</span>`;
+  return arr.map(t => `<span class="tag-pill ${type}">${t}</span>`).join('');
+}
+
+function makeQCards(items, section, offset) {
+  return items.map((item, i) => `
+    <div class="q-card" id="qcard-${section}-${i}">
+      <span class="q-tag">Q${offset + i + 1}</span>
+      <div class="q-body">
+        <div class="q-text">${item.q}</div>
+        <div class="q-hint">YES → <strong>${item.yes}</strong></div>
+      </div>
+      <div class="q-btns">
+        <button class="q-btn yes-btn" onclick="answer('${section}',${i},true,this)">YES</button>
+        <button class="q-btn no-btn"  onclick="answer('${section}',${i},false,this)">NO</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELECT EMOTION
+═══════════════════════════════════════════════════════════════════════════ */
+function selectEmotion(key, btn) {
+  currentEm = key;
+  answers = { food: [null, null], reason: [null, null], result: [null, null] };
+  answered = 0;
+
+  // Update emotion buttons
+  document.querySelectorAll('.em-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '';
+    b.style.borderColor = '';
+    b.style.color = '';
+  });
+  const color = DATA[key].color;
+  btn.classList.add('active');
+  btn.style.background = color;
+  btn.style.borderColor = color;
+  btn.style.color = '#fff';
+
+  // Build questions
+  const d = DATA[key];
+  document.getElementById('food-qs').innerHTML   = makeQCards(d.food,   'food',   0);
+  document.getElementById('reason-qs').innerHTML = makeQCards(d.reason, 'reason', 2);
+  document.getElementById('result-qs').innerHTML = makeQCards(d.result, 'result', 4);
+
+  // Show areas
+  document.getElementById('q-area').classList.add('visible');
+  document.getElementById('progress-wrap').classList.add('visible');
+  document.getElementById('result-section').classList.remove('visible');
+  document.getElementById('howto-box').style.display = 'none';
+
+  updateProgress();
+
+  // Smooth scroll
+  setTimeout(() => {
+    document.getElementById('progress-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANSWER
+═══════════════════════════════════════════════════════════════════════════ */
+function answer(section, idx, val, btn) {
+  const card = document.getElementById(`qcard-${section}-${idx}`);
+
+  // Toggle: if already selected same value, do nothing
+  const wasNull = answers[section][idx] === null;
+  answers[section][idx] = val;
+
+  // Update button states
+  const btns = card.querySelectorAll('.q-btn');
+  btns[0].classList.toggle('selected', val === true);
+  btns[1].classList.toggle('selected', val === false);
+
+  // Card style
+  card.classList.remove('answered-yes', 'answered-no');
+  card.classList.add(val ? 'answered-yes' : 'answered-no');
+
+  // Count answered
+  answered = 0;
+  ['food','reason','result'].forEach(s => answers[s].forEach(v => { if (v !== null) answered++; }));
+
+  updateProgress();
+
+  if (answered === 6) {
+    setTimeout(showResult, 300);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROGRESS
+═══════════════════════════════════════════════════════════════════════════ */
+function updateProgress() {
+  document.getElementById('prog-count').textContent = `${answered} / 6`;
+  document.getElementById('prog-bar').style.width = `${(answered / 6) * 100}%`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHOW RESULT
+═══════════════════════════════════════════════════════════════════════════ */
+function showResult() {
+  const d = DATA[currentEm];
+  const color = d.color;
+
+  // Collect YES items
+  const foodItems   = d.food.filter((_,i)   => answers.food[i]   === true).map(x => x.yes);
+  const reasonItems = d.reason.filter((_,i) => answers.reason[i] === true).map(x => x.yes);
+  const resultItems = d.result.filter((_,i) => answers.result[i] === true).map(x => x.yes);
+
+  // Header color
+  const header = document.getElementById('result-header');
+  header.style.background = `linear-gradient(135deg, ${color}, ${color}cc)`;
+  document.getElementById('result-title').textContent = `${d.label} 식습관 패턴`;
+
+  // Table
+  const tbody = document.getElementById('result-tbody');
+  tbody.innerHTML = `
+    <tr>
+      <td class="col-label">🍽 음식</td>
+      <td>${pills(foodItems,'food')}</td>
+    </tr>
+    <tr>
+      <td class="col-label">💭 이유</td>
+      <td>${pills(reasonItems,'reason')}</td>
+    </tr>
+    <tr>
+      <td class="col-label">📊 결과</td>
+      <td>${pills(resultItems,'result')}</td>
+    </tr>
+  `;
+
+  document.getElementById('result-section').classList.add('visible');
+  setTimeout(() => {
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ADD TO ALL TABLE & RESET
+═══════════════════════════════════════════════════════════════════════════ */
+function addToAllAndReset() {
+  if (!currentEm) return;
+  const d = DATA[currentEm];
+
+  allResults[currentEm] = {
+    food:   d.food.filter((_,i)   => answers.food[i]   === true).map(x => x.yes),
+    reason: d.reason.filter((_,i) => answers.reason[i] === true).map(x => x.yes),
+    result: d.result.filter((_,i) => answers.result[i] === true).map(x => x.yes),
+  };
+
+  renderAllTable();
+
+  // Show all results & reflection
+  document.getElementById('all-results-section').classList.add('visible');
+  document.getElementById('reflection-box').style.display = 'block';
+  document.getElementById('notice-bar').style.display = 'flex';
+
+  // Reset UI
+  currentEm = null;
+  answers = { food: [null, null], reason: [null, null], result: [null, null] };
+  answered = 0;
+
+  document.querySelectorAll('.em-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '';
+    b.style.borderColor = '';
+    b.style.color = '';
+  });
+  document.getElementById('q-area').classList.remove('visible');
+  document.getElementById('progress-wrap').classList.remove('visible');
+  document.getElementById('result-section').classList.remove('visible');
+
+  setTimeout(() => {
+    document.getElementById('all-results-section').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 150);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RENDER ALL TABLE
+═══════════════════════════════════════════════════════════════════════════ */
+function renderAllTable() {
+  const tbody = document.getElementById('all-tbody');
+  tbody.innerHTML = EM_ORDER.map(key => {
+    const d = DATA[key];
+    const res = allResults[key];
+    if (!res) {
+      return `
+        <tr>
+          <td><span class="em-name" style="background:${d.color}">${d.label}</span></td>
+          <td class="pending" colspan="3">아직 탐색하지 않음</td>
+        </tr>`;
+    }
+    return `
+      <tr>
+        <td><span class="em-name" style="background:${d.color}">${d.label}</span></td>
+        <td>${pills(res.food,'food')}</td>
+        <td>${pills(res.reason,'reason')}</td>
+        <td>${pills(res.result,'result')}</td>
+      </tr>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
